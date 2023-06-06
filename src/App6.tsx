@@ -43,9 +43,8 @@ const Size =() => {
 const BottomInput = ()=>{
   const state  = useAppContext();
   const dispatch = useDispatch()
-console.log('BottomInput 优化');
-// const change = useCallback((e:any)=>dispatch({type:ACTION_TYPES.HEIGHT1,payload:{height1:e.target.value}}),[dispatch]);
-const change = (e:any)=>dispatch({type:ACTION_TYPES.HEIGHT1,payload:{height1:e.target.value}});
+const change = useCallback((e:any)=>dispatch({type:ACTION_TYPES.HEIGHT1,payload:{height1:e.target.value}}),[dispatch]);
+// const change = (e:any)=>dispatch({type:ACTION_TYPES.HEIGHT1,payload:{height1:e.target.value}});
 
 if (window.changeTest) {
   console.log('usecallback',window.changeTest === change);
@@ -53,9 +52,16 @@ if (window.changeTest) {
 }else{
   window.changeTest = change
 }
-return  useMemo(()=>(
-  <CusInput  value={state.height1} onChange={change} />
-  ),[ state.height1])
+return  useMemo(()=>{
+  console.log('BottomInput 优化');
+
+  return (
+    <div> 
+        <span>bottom:</span> 
+    <CusInput  value={state.height1} onChange={change} />
+    </div>
+    )
+},[change,state.height1])
 }
 
 
@@ -72,7 +78,11 @@ const TopInputMemo =  React.memo((props:{height2:any,dispatch:any})=>{
   console.log('TopInputMemo');
 
   return (
-    <CusInput  value={props.height2} onChange={(e:any)=>props.dispatch({type:ACTION_TYPES.HEIGHT2,payload:{height2:e.target.value}})} />
+    <div>     
+      <span>top:</span> 
+      <CusInput  value={props.height2} onChange={(e:any)=>props.dispatch({type:ACTION_TYPES.HEIGHT2,payload:{height2:e.target.value}})} />
+    </div>
+
   ) 
 })
 

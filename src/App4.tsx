@@ -39,7 +39,6 @@ const SizeWarper = ({children}:{children:ReactNode})=>{
   return (
     <div>
       {state.count}
-
       {children}
       <Show count={state.count}/>
 
@@ -47,7 +46,7 @@ const SizeWarper = ({children}:{children:ReactNode})=>{
   );
 }
 
-const SizeOld = ({children}:{children:ReactNode})=>{
+const SizeOld = ()=>{
   const state  = useAppContext();
   const dispatch = useDispatch()
 
@@ -65,9 +64,7 @@ const SizeOld = ({children}:{children:ReactNode})=>{
 export default  function App(){
   return (
     <MProvider>
-      {/* <AccProvider> */}
-        <Size />
-      {/* </AccProvider> */}
+        <SizeOld />
     </MProvider>
   );
 };

@@ -89,6 +89,13 @@ export const useAppContext = ()=> useContext(AppContext)
  */
 export function MProvider({ children }: { children: React.ReactNode }) {
   const { state, dispatch } = MReducer();
+  if (window.dispatch) {
+    console.log(window.dispatch === dispatch);
+    
+  }else{
+    window.dispatch = dispatch
+  }
+
   return (<AppContext.Provider value={state}>
     <AppDispatchContext.Provider value={dispatch}>
    {children}

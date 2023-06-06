@@ -45,10 +45,13 @@ const Size =() => {
 const BottomInput = ()=>{
   const state  = useAppContext();
   const dispatch = useDispatch()
-console.log('BottomInput 优化');
-return  useMemo(()=>(
-  <CusInput  value={state.height1} onChange={(e:any)=>dispatch({type:ACTION_TYPES.HEIGHT1,payload:{height1:e.target.value}})} />
-  ),[dispatch, state.height1])
+return  useMemo(()=>{
+  console.log('BottomInput 优化');
+
+  return (
+    <CusInput  value={state.height1} onChange={(e:any)=>dispatch({type:ACTION_TYPES.HEIGHT1,payload:{height1:e.target.value}})} />
+    )
+},[dispatch, state.height1])
 }
 
 // React.memo(({})=>{
@@ -63,7 +66,11 @@ return  useMemo(()=>(
 //   console.log('BottomInput 未优化');
 
 //   return (
-//     <CusInput  value={state.height1} onChange={(e:any)=>dispatch({type:ACTION_TYPES.HEIGHT1,payload:{height1:e.target.value}})} />
+//     <div>
+//       <span>bottom:</span> 
+//       <CusInput  value={state.height1} onChange={(e:any)=>dispatch({type:ACTION_TYPES.HEIGHT1,payload:{height1:e.target.value}})} />
+//     </div>
+
 //   )
 // }
 
@@ -73,7 +80,12 @@ const TopInput = ()=>{
   console.log('TopInput');
 
   return (
+    <div> 
+            <span>top:</span> 
+
     <CusInput  value={state.height2} onChange={(e:any)=>dispatch({type:ACTION_TYPES.HEIGHT2,payload:{height2:e.target.value}})} />
+    </div>
+
   )
 }
 

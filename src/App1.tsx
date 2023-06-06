@@ -32,7 +32,22 @@ function ExpensiveCpn() {
   return <ExpensiveChild />;
 }
 
-// 变与不变分开，不变的命中性能优化
+
+// 1.没有性能优化
+// export default function App() {
+//   const [num, updateNum] = useState(0);
+
+//   return (
+//     <>
+//       <input value={num} onChange={(e) => updateNum(+e.target.value)} />
+//       <p>num is {num}</p>
+//       <ExpensiveCpn></ExpensiveCpn>
+//     </>
+//   );
+ 
+// }
+
+// 2.变与不变分开，不变的命中性能优化
 // export default function App() {
   
 //   return (
@@ -43,13 +58,38 @@ function ExpensiveCpn() {
 //   );
 // }
 
-// 模拟父组件有state
-export default function App() {
-  
+// 3.父组件有变量
+// export default function App() {
+//   const [num, updateNum] = useState(0);
+//   return (
+//     <div title={num + ''}>
+//       <input type="text" value={num} onChange={(e)=> updateNum(+e.target.value)}/>
+//       <p>num is {num}</p>
+//       <ExpensiveCpn></ExpensiveCpn>
+//     </div>
+//   )
+// }
+
+// 4.提取变量
+export function InputWrapper({children}:{children:React.ReactNode}) {
+  const [num, updateNum] = useState(0);
   return (
-    <div>
-      <Input />
-      <ExpensiveCpn />
+    <div title={num + ''}>
+      <input type="text" value={num} onChange={(e)=> updateNum(+e.target.value)}/>
+      <p>num is {num}</p>
+      {children}
     </div>
-  );
+  )
 }
+export default function App() {
+  return (
+    (
+      <InputWrapper>
+        <ExpensiveCpn></ExpensiveCpn>
+      </InputWrapper>
+    )
+
+    
+  )
+}
+
